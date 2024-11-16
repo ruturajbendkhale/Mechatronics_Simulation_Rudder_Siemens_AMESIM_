@@ -40,6 +40,8 @@ The steering gear utilizes a PI (Proportional-Integral) controller for accurate 
 - Controller Output: Manages the Hydraulic Power Unit
 
 ## Simulation Models
+![Sketch](https://github.com/user-attachments/assets/3910682e-d84f-4a6f-a22f-173e15705bc2)
+
 
 The project includes AMESim and Siemens simulation models demonstrating the PID controller implementation for the steering system.
 
