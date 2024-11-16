@@ -1,0 +1,127 @@
+<html><head>
+  <script type="text/javascript" src="qthelp://lmsimagine.lab/ame_dir/doc/javascript/init_submodel.js"></script><title>Speed control loop with tabulated motor</title></head>
+  
+<body style="background-color: white;" link="blue" vlink="purple">
+
+<h1 align="center"><font color="#3757a7" size="6">Speed control loop with tabulated motor</font></h1>
+
+<h2><u>Purpose</u></h2>
+<p>This demonstration presents a tabulated motor speed control with a varying mechanical load.</p>
+
+<h2><u>Open the demo</u></h2>
+<p><a href="11_TMotorSpeedLoop.ame">$AME/demo/Libraries/EMD/11_TMotorSpeedLoop.ame</a></p>
+
+<h2><u>Description</u></h2>
+<p>Electric machines and the associated power converters can be complex to model.
+For example, saturation phenomena in machine air gaps or power electronics losses for specific system may not be entirely understood.
+Moreover, getting into a greater level of details might require additional computation time that are incompatible with large system modeling.
+In order to deal with these modeling issues, it can be interesting to use functional models with average behavior based on observations or measurements.</p>
+<p>The EMD tabulated motor model represent a complete electric powertrain using data files to define the machine and its converter losses for a given control.
+It is therefore adapted to large system models where average energetic transfers are the main issue but high dynamics are not of first interest.</p>
+<p>In this example we propose to build a speed control loop for this motor, with a varying mechanical load.
+The model sketch is represented on Figure 1:</p>
+<p align="center"><img title="Tabulated motor speed control loop model" src="11_TMotorSpeedLoop_fichiers/Sketch.png"></p>
+<p align="center"><b>Figure 1: Tabulated motor speed control loop model</b></p>
+<p>This example control loop features a PI controller.
+The tabulated motor uses two data files to define the maximum and minimum torque the motor can handle,
+a saturation limitation is therefore in the loop implicitly. The machine is supplied with electric power with a constant DC voltage source.</p>
+
+<p>The motor and load torque are illustrated on Figure 2:</p>
+<p align="center"><img title="Motor and load torque on inertia" src="11_TMotorSpeedLoop_fichiers/Torques1.png"></p>
+<p align="center"><b>Figure 2: Motor and load torque on inertia</b></p>
+
+<p>We observe that the motor torque balances the load torque.
+It is even higher, since there is additional viscous friction on the inertia.
+The speed, however, is not perfectly regulated to the reference velocity value, so that a different equilibrium point is reached between 4 [s] and 6 [s] (Figure 3):</p>
+
+<p align="center"><img title="Motor and reference velocity" src="11_TMotorSpeedLoop_fichiers/Speed.png"></p>
+<p align="center"><b>Figure 3: Motor and reference velocity</b></p>
+
+<p>Figure 4 explains the problem of regulation due to the machine's torque saturation:</p>
+
+<p align="center"><img title="Torque characteristics and equilibrium points" src="11_TMotorSpeedLoop_fichiers/TorqueBalance.png"></p>
+<p align="center"><b>Figure 4: Torque characteristics and equilibrium points</b></p>
+
+<p>The resistive torque is due to the load torque and the viscous friction on the inertia.
+When the load torque rises, the resistive torque characteristic is translated along the Y axis.
+For different values of load torque, a set of resistive torque characteristics can be drawn
+(
+\(\Gamma res1(\Omega)\)
+to 
+\(\Gamma res8(\Omega)\)
+).</p>
+
+<p>
+<ul>
+<li>On 
+\(\Gamma res1(\Omega)\)
+: the load torque is null.
+To reach the reference speed
+\(\Omega ref\)
+,
+the motor has to provide
+\(\Gamma m\)
+so that the equilibrium point is M.</li>
+<li>
+On
+\(\Gamma res2(\Omega)\)
+:
+the load torque rises a little, the motor is still able to reach the reference speed and the equilibrium point goes to N.</li>
+<li>
+On
+\(\Gamma res3(\Omega)\)
+: O is a limit where the reference speed can still be reached.
+The motor torque reaches its maximum.</li>
+<li>
+On
+\(\Gamma res4(\Omega)\)
+: the motor is not able to keep the speed to the reference objective.
+For example the P point cannot be an equilibrium since the motor cannot provide
+\(\Gamma p\)
+.
+</li>
+<li>On
+\(\Gamma res5(\Omega)\)
+: the system is in the same situation as on
+\(\Gamma res4(\Omega)\)
+
+The equilibrium point is on the bold line, and the motor speed becomes
+\(\Omega eff\)
+.
+</li>
+<li>On
+\(\Gamma res6(\Omega)\)
+: likewise, the R point cannot be reached.
+\(\Gamma res6(\Omega)\)
+is a limit where the motor speed is zero.
+The motor can only match the load torque but cannot rotate.</li>
+<li>
+On
+\(\Gamma res7(\Omega)\)
+:
+The equilibrium point changes quadrant, the machine can only brake and works as a generator as it rotates in the opposite direction.
+</li>
+<li>
+On
+\(\Gamma res8(\Omega)\)
+: The load torque is too high and the machine cannot brake enough.
+The speed is limited by the friction force.
+</li>
+</ul>
+</p>
+
+
+<p>The problem of motor saturation is illustrated by Figure 5.
+We observe that torque commands higher than approximately 182 [Nm] cannot be reached:</p>
+<p align="center"><img title="Motor and command torque" src="11_TMotorSpeedLoop_fichiers/Torques2.png"></p>
+<p align="center"><b>Figure 5: Motor and command torque</b></p>
+
+<p>This torque limit, at the speed when saturation occurs (around 2426 [rpm]), can also be seen by launching the Table visualization 
+tool, attached to the <a href="../../../libemd/doc/html/submodels/EMDTMF01.html">EMDTMF01</a> submodel: </p>
+<p align="center"><img title="Table visualization tool" src="11_TMotorSpeedLoop_fichiers/EMDTableVisualization1.png"></p>
+<p align="center"><b>Figure 6: Table visualization tool</b></p>
+
+<hr style="border-width:0;">
+<div id="AMECopyright"></div>
+</body>
+</html>
